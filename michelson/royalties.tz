@@ -1,0 +1,158 @@
+{ parameter
+    (or (or (pair %configRoyalties (nat %token_id) (nat %royalties)) (bool %setPause))
+        (or (address %updateAdmin)
+            (or %updateProxy (address %add_proxy) (address %remove_proxy)))) ;
+  storage
+    (pair (address %admin)
+          (pair (set %proxy address)
+                (pair (big_map %royalties nat (pair (address %issuer) (nat %royalties)))
+                      (bool %paused)))) ;
+  code { UNPAIR ;
+         IF_LEFT
+           { IF_LEFT
+               { SWAP ;
+                 DUP ;
+                 DUG 2 ;
+                 GET 6 ;
+                 IF { DROP 2 ; PUSH nat 401 ; FAILWITH }
+                    { PUSH bool False ;
+                      DUP 3 ;
+                      GET 3 ;
+                      SENDER ;
+                      MEM ;
+                      COMPARE ;
+                      EQ ;
+                      IF { DROP 2 ; PUSH nat 403 ; FAILWITH }
+                         { PUSH nat 2500 ;
+                           SWAP ;
+                           DUP ;
+                           DUG 2 ;
+                           CDR ;
+                           COMPARE ;
+                           GT ;
+                           IF { DROP 2 ; PUSH nat 406 ; FAILWITH }
+                              { SWAP ;
+                                DUP ;
+                                DUG 2 ;
+                                GET 5 ;
+                                SWAP ;
+                                DUP ;
+                                DUG 2 ;
+                                CAR ;
+                                GET ;
+                                IF_NONE
+                                  { SOURCE ;
+                                    SWAP ;
+                                    DUP ;
+                                    DUG 2 ;
+                                    CDR ;
+                                    SWAP ;
+                                    PAIR ;
+                                    DIG 2 ;
+                                    DUP ;
+                                    GET 5 ;
+                                    DIG 2 ;
+                                    SOME ;
+                                    DIG 3 ;
+                                    CAR ;
+                                    UPDATE ;
+                                    UPDATE 5 ;
+                                    NIL operation ;
+                                    PAIR }
+                                  { SOURCE ;
+                                    SWAP ;
+                                    DUP ;
+                                    DUG 2 ;
+                                    CAR ;
+                                    COMPARE ;
+                                    NEQ ;
+                                    IF { DROP 3 ; PUSH nat 407 ; FAILWITH }
+                                       { DIG 2 ;
+                                         DUP ;
+                                         GET 5 ;
+                                         DIG 2 ;
+                                         DUP 4 ;
+                                         CDR ;
+                                         UPDATE 2 ;
+                                         SOME ;
+                                         DIG 3 ;
+                                         CAR ;
+                                         UPDATE ;
+                                         UPDATE 5 ;
+                                         NIL operation ;
+                                         PAIR } } } } } }
+               { SWAP ;
+                 DUP ;
+                 DUG 2 ;
+                 CAR ;
+                 SENDER ;
+                 COMPARE ;
+                 NEQ ;
+                 IF { DROP 2 ; PUSH nat 402 ; FAILWITH }
+                    { UPDATE 6 ; NIL operation ; PAIR } } }
+           { IF_LEFT
+               { SWAP ;
+                 DUP ;
+                 DUG 2 ;
+                 CAR ;
+                 SENDER ;
+                 COMPARE ;
+                 NEQ ;
+                 IF { DROP 2 ; PUSH nat 402 ; FAILWITH }
+                    { UPDATE 1 ; NIL operation ; PAIR } }
+               { SWAP ;
+                 DUP ;
+                 DUG 2 ;
+                 CAR ;
+                 SENDER ;
+                 COMPARE ;
+                 NEQ ;
+                 IF { DROP 2 ; PUSH nat 402 ; FAILWITH }
+                    { IF_LEFT
+                        { SWAP ;
+                          DUP ;
+                          DUG 2 ;
+                          GET 3 ;
+                          SWAP ;
+                          DUP ;
+                          DUG 2 ;
+                          MEM ;
+                          IF { DROP 2 ; PUSH nat 404 ; FAILWITH }
+                             { SWAP ;
+                               DUP ;
+                               GET 3 ;
+                               DIG 2 ;
+                               PUSH bool True ;
+                               SWAP ;
+                               UPDATE ;
+                               UPDATE 3 ;
+                               NIL operation ;
+                               PAIR } }
+                        { PUSH bool False ;
+                          DUP 3 ;
+                          GET 3 ;
+                          DUP 3 ;
+                          MEM ;
+                          COMPARE ;
+                          EQ ;
+                          IF { DROP 2 ; PUSH nat 405 ; FAILWITH }
+                             { SWAP ;
+                               DUP ;
+                               GET 3 ;
+                               DIG 2 ;
+                               PUSH bool False ;
+                               SWAP ;
+                               UPDATE ;
+                               UPDATE 3 ;
+                               NIL operation ;
+                               PAIR } } } } } } ;
+  view "get_royalties"
+       nat
+       (pair (address %issuer) (nat %royalties))
+       { UNPAIR ;
+         SWAP ;
+         GET 5 ;
+         SWAP ;
+         GET ;
+         IF_NONE { SELF_ADDRESS ; PUSH nat 0 ; SWAP ; PAIR } {} } }
+
