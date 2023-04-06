@@ -31,5 +31,23 @@
 [@inline] let error_ONLY_RECIPIENT_CAN_COLLECT = 128n
 [@inline] let error_CAN_NOT_UPDATE_DURATION_FOR_THIS_SWAP = 129n
 [@inline] let error_CAN_NOT_UPDATE_STARTING_PRICE_FOR_THIS_SWAP = 130n
+[@inline] let error_TOKEN_INDEX_UNLISTED = 131n
+[@inline] let error_FA12_CONTRACT_MUST_HAVE_A_TRANSFER_ENTRYPOINT = 132n
+[@inline] let error_NO_XTZ_AMOUNT_TO_BE_SENT = 133n
+[@inline] let error_TOKEN_LIST_INVALID = 134n
+[@inline] let error_EXCEEDED_PERMITTED_TOKEN_LIST_SIZE = 135n
+[@inline] let error_NO_AVAILABLE_CONVERSION_RATE = 136n
+[@inline] let error_ORACLE_FAILED_TO_SUPPLY_CONVERSION_RATE = 137n
+[@inline] let error_TOKEN_NOT_PERMITTED_BY_SELLER = 138n
+[@inline] let error_NO_FA12_ADDRESS_LISTED_FOR_THIS_TOKEN = 139n
+[@inline] let error_OFFER_VALUE_IS_NOT_EQUAL_TO_XTZ_AMOUNT = 140n
+[@inline] let error_NO_COUNTER_OFFER = 141n
+[@inline] let error_END_TIME_CANNOT_BE_ZERO = 142n
+[@inline] let error_COUNTER__OFFER_IS_TOO_EARLY = 143n
+[@inline] let error_COUNTER__OFFER_IS_TOO_LATE = 144n
+[@inline] let error_TOKEN_INDEX_LISTED = 145n
+[@inline] let error_PAIR_ALREADY_EXISTS = 146n
+[@inline] let error_COUNTER_OFFER_ALREADY_EXISTS = 147n
+[@inline] let error_NOT_REQUIRED_TOKEN = 148n
 
 #endif
